@@ -33,8 +33,9 @@ check_login();
 </style>
 <?php
 $order_code = $_GET['order_code'];
-$ret = "SELECT * FROM  rpos_orders WHERE order_code = '$order_code'";
+$ret = "SELECT * FROM  rpos_orders WHERE order_code = ?";
 $stmt = $mysqli->prepare($ret);
+$stmt->bind_param('s', $order_code);
 $stmt->execute();
 $res = $stmt->get_result();
 while ($order = $res->fetch_object()) {

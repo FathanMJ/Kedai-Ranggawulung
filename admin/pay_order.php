@@ -20,26 +20,44 @@ if (isset($_POST['pay'])) {
     $pay_method = $_POST['pay_method'];
     $pay_id = $_POST['pay_id'];
 
-    $order_status = $_GET['order_status'];
-
-    //Insert Captured information to a database table
-    $postQuery = "INSERT INTO rpos_payments (pay_id, pay_code, order_code, customer_id, pay_amt, pay_method) VALUES(?,?,?,?,?,?)";
-    $upQry = "UPDATE rpos_orders SET order_status =? WHERE order_code =?";
-
-    $postStmt = $mysqli->prepare($postQuery);
-    $upStmt = $mysqli->prepare($upQry);
-    //bind paramaters
-
-    $rc = $postStmt->bind_param('ssssss', $pay_id, $pay_code, $order_code, $customer_id, $pay_amt, $pay_method);
-    $rc = $upStmt->bind_param('ss', $order_status, $order_code);
-
-    $postStmt->execute();
-    $upStmt->execute();
-    //declare a varible which will be passed to alert function
-    if ($upStmt && $postStmt) {
-      $success = "Paid" && header("refresh:1; url=receipts.php");
+    // Validate payment amount against order total
+    $checkOrder = "SELECT (prod_price * prod_qty) as order_total, order_status FROM rpos_orders WHERE order_code = ?";
+    $checkStmt = $mysqli->prepare($checkOrder);
+    $checkStmt->bind_param('s', $order_code);
+    $checkStmt->execute();
+    $orderResult = $checkStmt->get_result();
+    $orderRow = $orderResult->fetch_object();
+    
+    if (!$orderRow) {
+      $err = "Order not found";
+    } elseif ($orderRow->order_status == 'Paid') {
+      $err = "Order has already been paid";
+    } elseif ($pay_amt != $orderRow->order_total) {
+      $err = "Payment amount does not match order total. Expected: RP " . $orderRow->order_total;
     } else {
-      $err = "Please Try Again Or Try Later";
+      // Hardcode order status to prevent bypass - always set to "Paid"
+      $order_status = "Paid";
+      $pay_id = isset($payid) ? $payid : uniqid('PAY-');
+
+      //Insert Captured information to a database table
+      $postQuery = "INSERT INTO rpos_payments (pay_id, pay_code, order_code, customer_id, pay_amt, pay_method) VALUES(?,?,?,?,?,?)";
+      $upQry = "UPDATE rpos_orders SET order_status = ? WHERE order_code = ?";
+
+      $postStmt = $mysqli->prepare($postQuery);
+      $upStmt = $mysqli->prepare($upQry);
+      //bind parameters
+
+      $rc = $postStmt->bind_param('ssssss', $pay_id, $pay_code, $order_code, $customer_id, $pay_amt, $pay_method);
+      $rc = $upStmt->bind_param('ss', $order_status, $order_code);
+
+      $postStmt->execute();
+      $upStmt->execute();
+      //declare a variable which will be passed to alert function
+      if ($upStmt && $postStmt) {
+        $success = "Paid" && header("refresh:1; url=receipts.php");
+      } else {
+        $err = "Please Try Again Or Try Later";
+      }
     }
   }
 }
@@ -57,8 +75,9 @@ require_once('partials/_head.php');
     <?php
     require_once('partials/_topnav.php');
     $order_code = $_GET['order_code'];
-    $ret = "SELECT * FROM  rpos_orders WHERE order_code ='$order_code' ";
+    $ret = "SELECT * FROM  rpos_orders WHERE order_code = ?";
     $stmt = $mysqli->prepare($ret);
+    $stmt->bind_param('s', $order_code);
     $stmt->execute();
     $res = $stmt->get_result();
     while ($order = $res->fetch_object()) {
@@ -88,11 +107,11 @@ require_once('partials/_head.php');
                 <div class="form-row">
                   <div class="col-md-6">
                     <label>Payment ID</label>
-                    <input type="text" name="pay_id" readonly value="<?php echo $payid;?>" class="form-control">
+                    <input type="text" name="pay_id" readonly value="<?php echo isset($payid) ? $payid : ''; ?>" class="form-control">
                   </div>
                   <div class="col-md-6">
                     <label>Payment Code</label>
-                    <input type="text" name="pay_code" value="<?php echo $mpesaCode; ?>" class="form-control" value="">
+                    <input type="text" name="pay_code" value="<?php echo isset($mpesaCode) ? $mpesaCode : ''; ?>" class="form-control" value="">
                   </div>
                 </div>
                 <hr>

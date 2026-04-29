@@ -55,6 +55,114 @@ require_once('partials/_analytics.php');
 ?>
 
 <body>
+<style>
+    .dashboard-stats-section {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 40px 20px;
+        border-radius: 15px;
+        margin-bottom: 30px;
+    }
+
+    .dashboard-header-title {
+        color: white;
+        margin-bottom: 5px;
+    }
+
+    .stat-card-modern {
+        background: white;
+        border-radius: 12px;
+        padding: 25px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+        transition: all 0.3s ease;
+        border-left: 5px solid #667eea;
+    }
+
+    .stat-card-modern:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    }
+
+    .stat-card-modern.customers {
+        border-left-color: #ef4444;
+    }
+
+    .stat-card-modern.staff {
+        border-left-color: #f59e0b;
+    }
+
+    .stat-card-modern.products {
+        border-left-color: #3b82f6;
+    }
+
+    .stat-card-modern.sales {
+        border-left-color: #10b981;
+    }
+
+    .stat-value-modern {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #333;
+        margin: 10px 0;
+    }
+
+    .stat-label-modern {
+        color: #666;
+        font-size: 0.95rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .card-header-modern {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 20px;
+        border-radius: 12px 12px 0 0;
+    }
+
+    .card-header-modern h3 {
+        margin: 0;
+        font-weight: 600;
+    }
+
+    .card-shadow {
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        border: none;
+    }
+
+    .table-modern tbody tr {
+        border-bottom: 1px solid #f0f0f0;
+        transition: background 0.3s ease;
+    }
+
+    .table-modern tbody tr:hover {
+        background: #f9f9f9;
+    }
+
+    .badge-paid {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        color: white;
+    }
+
+    .badge-pending {
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        color: white;
+    }
+
+    .btn-modern {
+        border-radius: 8px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .btn-modern:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+</style>
 <!-- For more projects: Visit codeastro.com  -->
   <!-- Sidenav -->
   <?php
@@ -67,81 +175,77 @@ require_once('partials/_analytics.php');
     require_once('partials/_topnav.php');
     ?>
     <!-- Header -->
-    <div style="background-image: url(assets/img/theme/ranggawulung.webp); background-size: cover;" class="header  pb-8 pt-5 pt-md-8">
-      <span class="mask bg-gradient-dark opacity-8"></span>
+    <div class="dashboard-stats-section">
       <div class="container-fluid">
-        <div class="header-body">
-          <?php if($err): ?>
-            <div class="alert alert-danger"><?php echo $err; ?></div>
-          <?php endif; ?>
-          <!-- Card stats -->
-          <div class="row">
-            <div class="col-xl-3 col-lg-6">
-              <div class="card card-stats mb-4 mb-xl-0">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col">
-                      <h5 class="card-title text-uppercase text-muted mb-0">Customers</h5>
-                      <span class="h2 font-weight-bold mb-0"><?php echo $totalCustomers; ?></span>
-                    </div>
-                    <div class="col-auto">
-                      <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
-                        <i class="fas fa-users"></i>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+        <div class="row">
+          <div class="col-12">
+            <h1 class="dashboard-header-title"><i class="fas fa-chart-line"></i> Dashboard</h1>
+            <p style="color: white; opacity: 0.9; margin: 0;">Selamat datang kembali, Admin</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <?php if($err): ?>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <i class="fas fa-exclamation-circle"></i> <?php echo $err; ?>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      <?php endif; ?>
+
+      <!-- Card stats -->
+      <div class="row">
+        <div class="col-xl-3 col-lg-6">
+          <div class="stat-card-modern customers">
+            <div class="row align-items-center">
+              <div class="col">
+                <div class="stat-label-modern">Total Customers</div>
+                <div class="stat-value-modern"><?php echo $totalCustomers; ?></div>
+              </div>
+              <div class="col-auto">
+                <i class="fas fa-users" style="font-size: 2.5rem; color: #ef4444; opacity: 0.2;"></i>
               </div>
             </div>
-            <div class="col-xl-3 col-lg-6">
-              <div class="card card-stats mb-4 mb-xl-0">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col">
-                      <h5 class="card-title text-uppercase text-muted mb-0">Staff</h5>
-                      <span class="h2 font-weight-bold mb-0"><?php echo $totalStaff; ?></span>
-                    </div>
-                    <div class="col-auto">
-                      <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
-                        <i class="fas fa-user-tie"></i>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-6">
+          <div class="stat-card-modern staff">
+            <div class="row align-items-center">
+              <div class="col">
+                <div class="stat-label-modern">Total Staff</div>
+                <div class="stat-value-modern"><?php echo $totalStaff; ?></div>
+              </div>
+              <div class="col-auto">
+                <i class="fas fa-user-tie" style="font-size: 2.5rem; color: #f59e0b; opacity: 0.2;"></i>
               </div>
             </div>
-            <div class="col-xl-3 col-lg-6">
-              <div class="card card-stats mb-4 mb-xl-0">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col">
-                      <h5 class="card-title text-uppercase text-muted mb-0">Products</h5>
-                      <span class="h2 font-weight-bold mb-0"><?php echo $totalProducts; ?></span>
-                    </div>
-                    <div class="col-auto">
-                      <div class="icon icon-shape bg-yellow text-white rounded-circle shadow">
-                        <i class="fas fa-coffee"></i>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-6">
+          <div class="stat-card-modern products">
+            <div class="row align-items-center">
+              <div class="col">
+                <div class="stat-label-modern">Total Products</div>
+                <div class="stat-value-modern"><?php echo $totalProducts; ?></div>
+              </div>
+              <div class="col-auto">
+                <i class="fas fa-coffee" style="font-size: 2.5rem; color: #3b82f6; opacity: 0.2;"></i>
               </div>
             </div>
-            <div class="col-xl-3 col-lg-6">
-              <div class="card card-stats mb-4 mb-xl-0">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col">
-                      <h5 class="card-title text-uppercase text-muted mb-0">Sales</h5>
-                      <span class="h2 font-weight-bold mb-0">Rp <?php echo number_format($totalSales, 0, ',', '.'); ?></span>
-                    </div>
-                    <div class="col-auto">
-                      <div class="icon icon-shape bg-info text-white rounded-circle shadow">
-                        <i class="fas fa-money-bill-alt"></i>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-6">
+          <div class="stat-card-modern sales">
+            <div class="row align-items-center">
+              <div class="col">
+                <div class="stat-label-modern">Total Sales</div>
+                <div class="stat-value-modern">Rp <?php echo number_format($totalSales, 0, ',', '.'); ?></div>
+              </div>
+              <div class="col-auto">
+                <i class="fas fa-money-bill-alt" style="font-size: 2.5rem; color: #10b981; opacity: 0.2;"></i>
               </div>
             </div>
           </div>
@@ -152,28 +256,30 @@ require_once('partials/_analytics.php');
     <div class="container-fluid mt--7">
       <div class="row mt-5">
         <div class="col-xl-12 mb-5 mb-xl-0">
-          <div class="card shadow">
-            <div class="card-header border-0">
+          <div class="card card-shadow">
+            <div class="card-header card-header-modern">
               <div class="row align-items-center">
                 <div class="col">
-                  <h3 class="mb-0">Recent Orders</h3>
+                  <h3 class="mb-0"><i class="fas fa-shopping-bag"></i> Recent Orders</h3>
                 </div>
                 <div class="col text-right">
-                  <a href="orders_reports.php" class="btn btn-sm btn-primary">See all</a>
+                  <a href="orders_reports.php" class="btn btn-sm btn-light btn-modern">
+                    <i class="fas fa-arrow-right"></i> View All
+                  </a>
                 </div>
               </div>
             </div>
             <div class="table-responsive">
               <!-- Projects table -->
-              <table class="table align-items-center table-flush">
+              <table class="table align-items-center table-flush table-modern">
                 <thead class="thead-light">
-                  <tr>
-                    <th scope="col">Order Code</th>
-                    <th scope="col">Customer</th>
-                    <th scope="col">Product</th>
-                    <th scope="col">Total</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Date</th>
+                  <tr style="background: #f8f9fa;">
+                    <th scope="col"><i class="fas fa-barcode"></i> Order Code</th>
+                    <th scope="col"><i class="fas fa-user"></i> Customer</th>
+                    <th scope="col"><i class="fas fa-box"></i> Product</th>
+                    <th scope="col"><i class="fas fa-money-bill"></i> Total</th>
+                    <th scope="col"><i class="fas fa-check-circle"></i> Status</th>
+                    <th scope="col"><i class="fas fa-calendar"></i> Date</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -197,17 +303,16 @@ require_once('partials/_analytics.php');
                     <?php else:
                       while($order = $result->fetch_object()): ?>
                         <tr>
-                          <td><?php echo htmlspecialchars($order->order_code); ?></td>
+                          <td><code><?php echo htmlspecialchars($order->order_code); ?></code></td>
                           <td><?php echo htmlspecialchars($order->customer_name); ?></td>
                           <td><?php echo htmlspecialchars($order->prod_name); ?></td>
-                          <td>Rp <?php echo number_format($order->total_amount, 0, ',', '.'); ?></td>
+                          <td><strong>Rp <?php echo number_format($order->total_amount, 0, ',', '.'); ?></strong></td>
                           <td>
-                            <span class="badge badge-dot mr-4">
-                              <i class="bg-<?php echo $order->order_status === 'Paid' ? 'success' : 'warning'; ?>"></i>
+                            <span class="badge <?php echo $order->order_status === 'Paid' ? 'badge-paid' : 'badge-pending'; ?>" style="padding: 0.5rem 1rem; border-radius: 50px;">
                               <?php echo htmlspecialchars($order->order_status); ?>
                             </span>
                           </td>
-                          <td><?php echo date('d/m/Y H:i', strtotime($order->created_at)); ?></td>
+                          <td><small><?php echo date('d/m/Y H:i', strtotime($order->created_at)); ?></small></td>
                         </tr>
                       <?php endwhile;
                     endif;
@@ -225,47 +330,54 @@ require_once('partials/_analytics.php');
       </div>
       <div class="row mt-5">
         <div class="col-xl-12">
-          <div class="card shadow">
-            <div class="card-header border-0">
+          <div class="card card-shadow">
+            <div class="card-header card-header-modern">
               <div class="row align-items-center">
                 <div class="col">
-                  <h3 class="mb-0">Recent Payments</h3>
+                  <h3 class="mb-0"><i class="fas fa-credit-card"></i> Recent Payments</h3>
                 </div>
                 <div class="col text-right">
-                  <a href="payments_reports.php" class="btn btn-sm btn-primary">See all</a>
+                  <a href="payments_reports.php" class="btn btn-sm btn-light btn-modern">
+                    <i class="fas fa-arrow-right"></i> View All
+                  </a>
                 </div>
               </div>
             </div>
             <div class="table-responsive">
               <!-- Projects table -->
-              <table class="table align-items-center table-flush">
+              <table class="table align-items-center table-flush table-modern">
                 <thead class="thead-light">
-                  <tr>
-                    <th class="text-success" scope="col"><b>Code</b></th>
-                    <th scope="col"><b>Amount</b></th>
-                    <th class='text-success' scope="col"><b>Order Code</b></th>
+                  <tr style="background: #f8f9fa;">
+                    <th scope="col"><i class="fas fa-hashtag"></i> Code</th>
+                    <th scope="col"><i class="fas fa-money-bill"></i> Amount</th>
+                    <th scope="col"><i class="fas fa-link"></i> Order Code</th>
+                    <th scope="col"><i class="fas fa-calendar"></i> Date</th>
                   </tr>
                 </thead>
                 <tbody>
                   <?php
-                  $ret = "SELECT * FROM   rpos_payments   ORDER BY `rpos_payments`.`created_at` DESC LIMIT 7 ";
+                  $ret = "SELECT * FROM rpos_payments ORDER BY `rpos_payments`.`created_at` DESC LIMIT 7 ";
                   $stmt = $mysqli->prepare($ret);
                   $stmt->execute();
                   $res = $stmt->get_result();
-                  while ($payment = $res->fetch_object()) {
+                  if($res->num_rows === 0): ?>
+                    <tr>
+                      <td colspan="4" class="text-center text-muted py-4">No payments found</td>
+                    </tr>
+                  <?php else:
+                    while ($payment = $res->fetch_object()) {
                   ?>
                     <tr>
-                      <th class="text-success" scope="row">
-                        <?php echo $payment->pay_code; ?>
-                      </th>
-                      <td>
-                        RP<?php echo $payment->pay_amt; ?>
-                      </td>
-                      <td class='text-success'>
-                        <?php echo $payment->order_code; ?>
-                      </td>
+                      <td><code><?php echo htmlspecialchars($payment->pay_code); ?></code></td>
+                      <td><strong>Rp<?php echo number_format($payment->pay_amt, 0, ',', '.'); ?></strong></td>
+                      <td><code><?php echo htmlspecialchars($payment->order_code); ?></code></td>
+                      <td><small><?php echo date('d/m/Y H:i', strtotime($payment->created_at)); ?></small></td>
                     </tr>
-                  <?php } ?>
+                  <?php 
+                    }
+                  endif;
+                  $stmt->close();
+                  ?>
                 </tbody>
               </table>
             </div>
