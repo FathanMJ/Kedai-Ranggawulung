@@ -11,7 +11,7 @@ check_login();
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
-    <meta name="author" content="MartDevelopers Inc">
+    <meta name="author" content="Fathan Mutohirul Janan">
     <title>Kedai Ranggawulung </title>
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="assets/img/icons/apple-touch-icon.png">

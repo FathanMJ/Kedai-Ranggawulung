@@ -1,14 +1,13 @@
 <?php
 /**
- * Midtrans Configuration (Customer Portal)
+ * Midtrans Configuration
  * Set your Midtrans credentials here
- * IMPORTANT: Keep this file secure and never commit to public repositories
  */
 
 // Midtrans Server Key dan Client Key
 // Get from: https://dashboard.midtrans.com/
-define('MIDTRANS_SERVER_KEY', 'YOUR_SERVER_KEY_HERE');
-define('MIDTRANS_CLIENT_KEY', 'YOUR_CLIENT_KEY_HERE');
+define('MIDTRANS_SERVER_KEY', 'SB-Mid-server-Qko3Ve2udri-3rLrpEH22xNH');
+define('MIDTRANS_CLIENT_KEY', 'SB-Mid-client-xh7cB6GK-mTPFvjY');
 
 // Set Midtrans environment (true for production, false for sandbox)
 define('MIDTRANS_IS_PRODUCTION', false);
@@ -21,7 +20,7 @@ define('MIDTRANS_API_URL', MIDTRANS_IS_PRODUCTION
 /**
  * Merchant Information
  */
-define('MERCHANT_ID', 'YOUR_MERCHANT_ID');
+define('MERCHANT_ID', 'G102115432');
 define('MERCHANT_NAME', 'Kedai Ranggawulung');
 define('MERCHANT_EMAIL', 'contact@kedairanggawulung.com');
 
