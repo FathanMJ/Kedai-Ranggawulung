@@ -6,6 +6,10 @@ include('config/code-generator.php');
 
 check_login();
 
+// Initialize variables
+$payid = isset($payid) ? $payid : uniqid('PAY-');
+$mpesaCode = isset($mpesaCode) ? $mpesaCode : 'PAY-' . bin2hex(random_bytes(3));
+
 if (isset($_POST['pay'])) {
   //Prevent Posting Blank Values
   if (empty($_POST["pay_code"]) || empty($_POST["pay_amt"]) || empty($_POST['pay_method'])) {

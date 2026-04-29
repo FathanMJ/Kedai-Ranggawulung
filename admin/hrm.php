@@ -9,6 +9,9 @@ $err = '';
 $success = '';
 
 // Delete Staff
+$checkStmt = null;
+$deleteStmt = null;
+
 if (isset($_GET['delete'])) {
     $id = intval($_GET['delete']);
     

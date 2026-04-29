@@ -9,6 +9,8 @@ check_login();
 // Initialize variables
 $err = '';
 $success = '';
+$alpha = $alpha ?? 'XXXX';
+$beta = $beta ?? '0000';
 
 // Add Staff
 if (isset($_POST['addStaff'])) {

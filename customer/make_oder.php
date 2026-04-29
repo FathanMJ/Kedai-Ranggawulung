@@ -6,6 +6,11 @@ include('config/code-generator.php');
 
 check_login();
 
+// Initialize variables
+$alpha = $alpha ?? 'XXXX';
+$beta = $beta ?? '0000';
+$orderid = $orderid ?? '';
+
 if (isset($_POST['make'])) {
     // Prevent Posting Blank Values
     if (empty($_POST["order_code"]) || empty($_POST["customer_name"]) || empty($_POST['prod_price']) || empty($_POST['prod_qty']) || empty($_POST['meja_id'])) {

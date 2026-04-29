@@ -5,6 +5,9 @@ include('config/checklogin.php');
 include('config/code-generator.php');
 
 check_login();
+// Initialize variables from code-generator
+$alpha = isset($alpha) ? $alpha : 'XXXX';
+$beta = isset($beta) ? $beta : '0000';
 if (isset($_POST['addProduct'])) {
   //Prevent Posting Blank Values
   if (empty($_POST["prod_code"]) || empty($_POST["prod_name"]) || empty($_POST['prod_desc']) || empty($_POST['prod_price']) || empty($_POST['prod_stock'])) {

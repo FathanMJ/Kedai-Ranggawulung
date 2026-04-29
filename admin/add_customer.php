@@ -5,6 +5,8 @@ include('config/checklogin.php');
 include('config/code-generator.php');
 //Visit codeastro.com for more projects
 check_login();
+// Initialize customer_id if not already set
+$cus_id = isset($cus_id) ? $cus_id : 'CUS-' . uniqid();
 //Add Customer
 if (isset($_POST['addCustomer'])) {
   //Prevent Posting Blank Values

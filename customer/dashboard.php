@@ -4,6 +4,38 @@ include('config/config.php');
 include('config/checklogin.php');
 check_login();
 
+// Initialize dashboard statistics variables
+$products = 0;
+$orders = 0;
+$sales = 0;
+
+try {
+    // Get total products
+    $productStmt = $mysqli->prepare("SELECT COUNT(*) as total FROM rpos_products");
+    $productStmt->execute();
+    $productResult = $productStmt->get_result();
+    $products = $productResult->fetch_object()->total;
+    $productStmt->close();
+    
+    // Get total orders for customer
+    $orderStmt = $mysqli->prepare("SELECT COUNT(*) as total FROM rpos_orders WHERE customer_id = ?");
+    $orderStmt->bind_param('s', $_SESSION['customer_id']);
+    $orderStmt->execute();
+    $orderResult = $orderStmt->get_result();
+    $orders = $orderResult->fetch_object()->total;
+    $orderStmt->close();
+    
+    // Get total sales for customer
+    $salesStmt = $mysqli->prepare("SELECT COALESCE(SUM(prod_price * prod_qty), 0) as total FROM rpos_orders WHERE customer_id = ? AND order_status = 'Paid'");
+    $salesStmt->bind_param('s', $_SESSION['customer_id']);
+    $salesStmt->execute();
+    $salesResult = $salesStmt->get_result();
+    $sales = $salesResult->fetch_object()->total;
+    $salesStmt->close();
+} catch (Exception $e) {
+    error_log("Dashboard stats error: " . $e->getMessage());
+}
+
 require_once('partials/_head.php');
 require_once('partials/_analytics.php');
 ?>

@@ -6,6 +6,9 @@ include('config/code-generator.php');
 
 check_login();
 
+// Initialize variables from code-generator
+$beta = isset($beta) ? $beta : '0000';
+
 // Add Table
 if (isset($_POST['addTable'])) {
   // Prevent Posting Blank Values

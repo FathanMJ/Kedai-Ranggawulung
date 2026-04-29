@@ -121,7 +121,7 @@ class MidtransHelper {
     /**
      * Make API request to Midtrans
      */
-    private function makeApiRequest($endpoint, $method = 'GET', $data = null) {
+    private function makeApiRequest($endpoint, $method = 'GET', $data = null): array {
         $url = $this->apiUrl . $endpoint;
         
         $ch = curl_init();

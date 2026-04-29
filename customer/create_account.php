@@ -6,6 +6,7 @@ require_once('config/code-generator.php');
 // Initialize variables
 $err = '';
 $success = '';
+$cus_id = isset($cus_id) ? $cus_id : 'CUS-' . uniqid();
 
 // Handle account creation
 if (isset($_POST['addCustomer'])) {

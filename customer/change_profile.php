@@ -33,6 +33,10 @@ if (isset($_POST['changePassword'])) {
 
     //Change Password
     $error = 0;
+    $old_password = '';
+    $new_password = '';
+    $confirm_password = '';
+    
     if (isset($_POST['old_password']) && !empty($_POST['old_password'])) {
         $old_password = mysqli_real_escape_string($mysqli, trim(sha1(md5($_POST['old_password']))));
     } else {
